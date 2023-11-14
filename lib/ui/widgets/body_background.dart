@@ -15,6 +15,7 @@ class BodyBackground extends StatelessWidget {
           width: double.infinity,
           height: double.infinity,
           fit: BoxFit.cover,
+          
         ),
         child,
       ],

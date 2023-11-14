@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 class TaskItemCard extends StatelessWidget {
   const TaskItemCard({
-    super.key,required this.tittle,required this.description,required this.date,required this.taskLabel
+    super.key,required this.tittle,required this.description,required this.date,required this.taskLabel, required this.chipColor
   });
 
   final String tittle,description,date,taskLabel;
+  final MaterialColor chipColor;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class TaskItemCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Chip(label: Text(taskLabel,style: TextStyle(color: Colors.white,),),backgroundColor: Colors.blue,),
+                Chip(label: Text(taskLabel,style: TextStyle(color: Colors.white,),),backgroundColor: chipColor,),
                 Wrap(
                   children: [
                     IconButton(onPressed: (){}, icon: Icon(Icons.edit_document,color: Colors.green,),),
