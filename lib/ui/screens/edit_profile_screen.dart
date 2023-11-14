@@ -39,36 +39,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         const SizedBox(
                           height: 16,
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                child: Container(
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(8),
-                                      bottomLeft: Radius.circular(8),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: const Text(
-                                      'Photos',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                )),
-                            Expanded(
-                              flex: 3,
-                              child: TextFormField(),
-                            ),
-                          ],
-                        ),
+                        photoPickerField(),
                         const SizedBox(
                           height: 8,
                         ),
@@ -139,5 +110,38 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
     );
+  }
+
+  Row photoPickerField() {
+    return Row(
+                        children: [
+                          Expanded(
+                              flex: 1,
+                              child: Container(
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(8),
+                                    bottomLeft: Radius.circular(8),
+                                  ),
+                                ),
+                                child: Center(
+                                  child: const Text(
+                                    'Photos',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              )),
+                          Expanded(
+                            flex: 3,
+                            child: TextFormField(),
+                          ),
+                        ],
+                      );
   }
 }
