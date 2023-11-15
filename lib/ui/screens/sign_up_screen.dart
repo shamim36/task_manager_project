@@ -33,153 +33,153 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: SingleChildScrollView(
                 child: Form(
                   key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 45,
-                      ),
-                      Text(
-                        'Join With Us',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      TextFormField(
-                        controller: _emailTEController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          hintText: 'Email',
-                        ),
-                        validator: (String? value) {
-                          if (value?.trim().isEmpty ?? true) {
-                            return 'Enter your email address';
-                          } else {
-                            final RegExp emailRegex = RegExp(
-                                r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[a-zA-Z]{2,})+$');
-                            if (!emailRegex.hasMatch(value!)) {
-                              return 'Enter a valid email address';
-                            }
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        controller: _firstNameTEController,
-                        decoration: const InputDecoration(
-                          hintText: 'First Name',
-                        ),
-                        validator: (String? value) {
-                          if (value?.trim().isEmpty ?? true) {
-                            return 'Enter your First Name';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        controller: _lastNameTEController,
-                        decoration: const InputDecoration(
-                          hintText: 'Last Name',
-                        ),
-                        validator: (String? value) {
-                          if (value?.trim().isEmpty ?? true) {
-                            return 'Enter your Last Name';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        controller: _mobileTEController,
-                        keyboardType: TextInputType.phone,
-                        decoration: const InputDecoration(
-                          hintText: 'Mobile',
-                        ),
-                        validator: (String? value) {
-                          if (value?.trim().isNotEmpty ?? true) {
-                            final RegExp mobileRegex = RegExp(r'^\d{11}$');
-                            if (!mobileRegex.hasMatch(value!)) {
-                              return 'Enter a valid 11-digit Mobile number';
-                            }
-                          } else {
-                            return 'Enter your Mobile number';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      TextFormField(
-                        controller: _passwordTEController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          hintText: 'Password',
-                        ),
-                        validator: (String? value) {
-                          if (value?.isEmpty ?? true) {
-                            return 'Enter your Password';
-                          }
-                          if (value!.length < 6) {
-                            return 'Enter password more than 6 letters';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 18,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Visibility(
-                          visible: _signUpInProgress = true,
+                  child: Visibility(
+                    visible: _signUpInProgress = true,
                           replacement: const Center(
                             child: CircularProgressIndicator(),
                           ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 45,
+                        ),
+                        Text(
+                          'Join With Us',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        TextFormField(
+                          controller: _emailTEController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: const InputDecoration(
+                            hintText: 'Email',
+                          ),
+                          validator: (String? value) {
+                            if (value?.trim().isEmpty ?? true) {
+                              return 'Enter your email address';
+                            } else {
+                              final RegExp emailRegex = RegExp(
+                                  r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[a-zA-Z]{2,})+$');
+                              if (!emailRegex.hasMatch(value!)) {
+                                return 'Enter a valid email address';
+                              }
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        TextFormField(
+                          controller: _firstNameTEController,
+                          decoration: const InputDecoration(
+                            hintText: 'First Name',
+                          ),
+                          validator: (String? value) {
+                            if (value?.trim().isEmpty ?? true) {
+                              return 'Enter your First Name';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        TextFormField(
+                          controller: _lastNameTEController,
+                          decoration: const InputDecoration(
+                            hintText: 'Last Name',
+                          ),
+                          validator: (String? value) {
+                            if (value?.trim().isEmpty ?? true) {
+                              return 'Enter your Last Name';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        TextFormField(
+                          controller: _mobileTEController,
+                          keyboardType: TextInputType.phone,
+                          decoration: const InputDecoration(
+                            hintText: 'Mobile',
+                          ),
+                          validator: (String? value) {
+                            if (value?.trim().isNotEmpty ?? true) {
+                              final RegExp mobileRegex = RegExp(r'^\d{11}$');
+                              if (!mobileRegex.hasMatch(value!)) {
+                                return 'Enter a valid 11-digit Mobile number';
+                              }
+                            } else {
+                              return 'Enter your Mobile number';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        TextFormField(
+                          controller: _passwordTEController,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            hintText: 'Password',
+                          ),
+                          validator: (String? value) {
+                            if (value?.isEmpty ?? true) {
+                              return 'Enter your Password';
+                            }
+                            if (value!.length < 6) {
+                              return 'Enter password more than 6 letters';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 18,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () => _signUp(),
                             child:
                                 const Icon(Icons.arrow_circle_right_outlined),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 18,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Have account?',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black54,
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text(
-                              'Sign in',
+                        const SizedBox(
+                          height: 18,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Have account?',
                               style: TextStyle(
                                 fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black54,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'Sign in',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

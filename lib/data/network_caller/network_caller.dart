@@ -5,7 +5,8 @@ import 'package:http/http.dart';
 import 'package:task_manager_project/data/network_caller/network_response.dart';
 
 class NetworkCaller {
-  Future<NetworkResponse> postRequest(String url, {Map<String, dynamic>? body}) async {
+  Future<NetworkResponse> postRequest(String url,
+      {Map<String, dynamic>? body}) async {
     try {
       log(url);
       log(body.toString());
@@ -40,5 +41,3 @@ class NetworkCaller {
     }
   }
 }
-
-
