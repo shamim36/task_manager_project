@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager_project/data/models/task_list_model.dart';
+import 'package:task_manager_project/data/network_caller/network_caller.dart';
+import 'package:task_manager_project/data/network_caller/network_response.dart';
+import 'package:task_manager_project/data/utility/urls.dart';
 import 'package:task_manager_project/ui/widgets/profile_summary_card.dart';
 import 'package:task_manager_project/ui/widgets/task_item_card.dart';
 
@@ -10,25 +14,63 @@ class CompletedTaskScreen extends StatefulWidget {
 }
 
 class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
+  bool getCompletedTaskInProgress = false;
+  TaskListModel taskListModel = TaskListModel();
+
+  Future<void> getCompletedTaskList() async {
+    getCompletedTaskInProgress = true;
+    if (mounted) {
+      setState(() {});
+    }
+    final NetworkResponse response =
+        await NetworkCaller().getRequest(Urls.getCompletedTasks);
+    if (response.isSuccess) {
+      taskListModel = TaskListModel.fromJson(response.jsonResponse);
+    }
+    getCompletedTaskInProgress = false;
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCompletedTaskList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            ProfileSummaryCard(),
+            const ProfileSummaryCard(),
             Expanded(
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return TaskItemCard(
-                    tittle: 'Tittle will be here',
-                    description: 'Descriptions',
-                    date: 'Date: 12-12-2020',
-                    taskLabel: 'Completed',
-                    chipColor: Colors.green,
-                  );
-                },
+              child: Visibility(
+                visible: getCompletedTaskInProgress == false,
+                replacement: const Center(child: CircularProgressIndicator()),
+                child: RefreshIndicator(
+                  onRefresh: getCompletedTaskList,
+                  child: ListView.builder(
+                    itemCount: taskListModel.taskList?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return TaskItemCard(
+                        task: taskListModel.taskList![index],
+                        chipColor: Colors.green,
+                        onStatusChange: () {
+                          getCompletedTaskList();
+                        },
+                        showProgress: (inProgress) {
+                          getCompletedTaskInProgress = inProgress;
+                          if (mounted) {
+                            setState(() {});
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
           ],

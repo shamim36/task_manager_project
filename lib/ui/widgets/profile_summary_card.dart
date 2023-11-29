@@ -26,16 +26,16 @@ class _ProfileSummaryCardState extends State<ProfileSummaryCard> {
           );
         }
       },
-      leading: CircleAvatar(
+      leading: const CircleAvatar(
         child: Icon(Icons.person_2_rounded),
       ),
       title: Text(
         getFullName(),
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
       ),
       subtitle: Text(
         AuthController.user?.email ?? '',
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
         ),
       ),
@@ -46,12 +46,12 @@ class _ProfileSummaryCardState extends State<ProfileSummaryCard> {
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => LoginScreen(),
+                  builder: (context) => const LoginScreen(),
                 ),
                 (route) => false);
           }
         },
-        icon: Icon(Icons.logout),
+        icon: const Icon(Icons.logout),
       ),
       tileColor: Colors.green,
     );
@@ -60,6 +60,6 @@ class _ProfileSummaryCardState extends State<ProfileSummaryCard> {
   String getFullName(){
     String firstName = AuthController.user?.firstName ?? '';
     String lastName = AuthController.user?.lastName ?? '';
-    return firstName +' '+ lastName;
+    return '$firstName $lastName';
   }
 }

@@ -161,11 +161,14 @@ class _LoginScreenState extends State<LoginScreen> {
     if (mounted) {
       setState(() {});
     }
-    NetworkResponse response =
-        await NetworkCaller().postRequest(Urls.login, body: {
-      'email': _emailTEController.text.trim(),
-      'password': _passwordTEController.text,
-    });
+    NetworkResponse response = await NetworkCaller().postRequest(
+      Urls.login,
+      body: {
+        'email': _emailTEController.text.trim(),
+        'password': _passwordTEController.text,
+      },
+      isLogin: true,
+    );
     _loginInProgress = false;
     if (mounted) {
       setState(() {});
@@ -187,11 +190,11 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       if (response.statusCode == 401) {
         if (mounted) {
-          showSnackMessage(context, 'Please check email/password');
+          showSnackMessage(context, 'Please check email/password',true);
         }
       } else {
         if (mounted) {
-          showSnackMessage(context, 'Login failed. Try Again!');
+          showSnackMessage(context, 'Login failed. Try Again!',true);
         }
       }
     }
