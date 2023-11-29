@@ -117,7 +117,7 @@ class _TaskItemCardState extends State<TaskItemCard> {
               onTap: (){
                 updateTaskStatus(e.name);
                 Navigator.pop(context);
-                // showSnackMessage(context, 'Status Updated to ${e.name}');
+                showSnackMessage(context, 'Status Updated to ${e.name}');
               },
             ))
         .toList();

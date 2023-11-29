@@ -40,6 +40,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       setState(() {});
     }
   }
+  
   Future<void> setRefresh() async{
     getNewTaskList();
     getTaskCountSummaryList();
