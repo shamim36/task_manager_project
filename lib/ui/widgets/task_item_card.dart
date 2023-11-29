@@ -140,7 +140,7 @@ class _TaskItemCardState extends State<TaskItemCard> {
                       Navigator.pop(context);
                     },
                     child: const Text(
-                      'Cancel',
+                      'Cancel', 
                       style: TextStyle(
                         color: Colors.blueGrey,
                       ),

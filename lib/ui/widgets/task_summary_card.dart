@@ -22,7 +22,7 @@ class SummaryCard extends StatelessWidget {
               Text(
                 tittle,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
               ),
