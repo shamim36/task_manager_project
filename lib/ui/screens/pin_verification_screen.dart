@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:task_manager_project/data/network_caller/network_caller.dart';
+import 'package:task_manager_project/data/network_caller/network_response.dart';
+import 'package:task_manager_project/data/utility/urls.dart';
 import 'package:task_manager_project/ui/screens/login_screen.dart';
 import 'package:task_manager_project/ui/screens/reset_password_screen.dart';
 import 'package:task_manager_project/ui/widgets/body_background.dart';
+import 'package:task_manager_project/ui/widgets/snack_message.dart';
 
 class PinVerificationScreen extends StatefulWidget {
   const PinVerificationScreen({super.key});
@@ -12,6 +16,11 @@ class PinVerificationScreen extends StatefulWidget {
 }
 
 class _PinVerificationScreenState extends State<PinVerificationScreen> {
+
+  final TextEditingController _pinTEController = TextEditingController();
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  bool _pinVarificationInProgress = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,5 +138,44 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> pinVarification() async {
+    _pinVarificationInProgress = true;
+    if (mounted) {
+      setState(() {});
+    }
+    NetworkResponse response = await NetworkCaller().getRequest(
+      Urls.varifyEmail(_pinTEController.text.trim()),
+    );
+    _pinVarificationInProgress = false;
+    if (mounted) {
+      setState(() {});
+    }
+    if (response.isSuccess && response.jsonResponse['status']=='success') {
+      
+      if (mounted) {
+        
+        showSnackMessage(context, 'PIN Varification Successful!');
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ResetPasswordScreen(),
+          ),
+        );
+      }
+    } else {
+      if (response.statusCode == 401) {
+        if (mounted) {
+          showSnackMessage(
+              context, 'Please Enter valid 6 digit PIN!', true);
+        }
+      } else {
+        if (mounted) {
+          showSnackMessage(context, 'Invalid . Try Again!', true);
+        }
+      }
+    }
   }
 }

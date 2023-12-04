@@ -18,5 +18,10 @@ class Urls {
   static String updateTaskStatus(String taskId, String status) =>
       '$_baseUrl/updateTaskStatus/$taskId/$status';
 
+  static String varifyEmail(String email) =>
+      '$_baseUrl/RecoverVerifyEmail/$email';
+
   static const String updateProfile = '$_baseUrl/profileUpdate';
+  
+
 }
