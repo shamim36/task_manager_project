@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:task_manager_project/data/network_caller/network_caller.dart';
 import 'package:task_manager_project/data/network_caller/network_response.dart';
@@ -16,7 +15,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailTEController = TextEditingController();
-  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+
   bool _emailVarificationInProgress = false;
 
   @override
@@ -130,16 +129,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const PinVerificationScreen(),
+              builder: (context) =>
+                  PinVerificationScreen(email: _emailTEController.text.trim()),
             ),
           );
+        }
+      } else {
+        if (mounted) {
+          showSnackMessage(
+              context, 'Please Enter your registered Email!', true);
         }
       }
     } else {
       if (response.statusCode == 401) {
         if (mounted) {
-          showSnackMessage(
-              context, 'Please Enter your registered Email!', true);
+          showSnackMessage(context, 'Invalid! Try Again!!', true);
         }
       } else {
         if (mounted) {

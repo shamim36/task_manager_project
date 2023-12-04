@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:task_manager_project/data/network_caller/network_caller.dart';
@@ -9,16 +11,15 @@ import 'package:task_manager_project/ui/widgets/body_background.dart';
 import 'package:task_manager_project/ui/widgets/snack_message.dart';
 
 class PinVerificationScreen extends StatefulWidget {
-  const PinVerificationScreen({super.key});
+  final String email;
+  const PinVerificationScreen({super.key, required this.email});
 
   @override
   State<PinVerificationScreen> createState() => _PinVerificationScreenState();
 }
 
 class _PinVerificationScreenState extends State<PinVerificationScreen> {
-
-  final TextEditingController _pinTEController = TextEditingController();
-  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  static String? PIN;
   bool _pinVarificationInProgress = false;
 
   @override
@@ -73,9 +74,11 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                     backgroundColor: Colors.transparent,
                     enableActiveFill: true,
                     onCompleted: (v) {
-                      print("Completed");
+                      // pinVarification();
                     },
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      PIN = value;
+                    },
                     beforeTextPaste: (text) {
                       return true;
                     },
@@ -86,16 +89,15 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                   ),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ResetPasswordScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text('Verify'),
+                    child: Visibility(
+                      visible: _pinVarificationInProgress == false,
+                      replacement: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: pinVarification,
+                        child: const Text('Verify'),
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -141,41 +143,49 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
   }
 
   Future<void> pinVarification() async {
-    _pinVarificationInProgress = true;
-    if (mounted) {
-      setState(() {});
-    }
-    NetworkResponse response = await NetworkCaller().getRequest(
-      Urls.varifyEmail(_pinTEController.text.trim()),
-    );
-    _pinVarificationInProgress = false;
-    if (mounted) {
-      setState(() {});
-    }
-    if (response.isSuccess && response.jsonResponse['status']=='success') {
-      
+    print("Entered PIN code : " + PIN.toString());
+    if (PIN?.trim() == null) {
       if (mounted) {
-        
-        showSnackMessage(context, 'PIN Varification Successful!');
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ResetPasswordScreen(),
-          ),
-        );
+        showSnackMessage(context, 'Empty!!', true);
       }
     } else {
-      if (response.statusCode == 401) {
+      _pinVarificationInProgress = true;
+      if (mounted) {
+        setState(() {});
+      }
+      NetworkResponse response = await NetworkCaller().getRequest(
+        Urls.verifyPin(widget.email, PIN!.trim()),
+      );
+      _pinVarificationInProgress = false;
+      if (mounted) {
+        setState(() {});
+      }
+      if (response.isSuccess && response.jsonResponse['status'] == 'success') {
         if (mounted) {
-          showSnackMessage(
-              context, 'Please Enter valid 6 digit PIN!', true);
+          showSnackMessage(context, 'PIN Varification Successful!');
+
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  ResetPasswordScreen(email: widget.email, otp: PIN!),
+            ),
+            (route) => false,
+          );
         }
       } else {
-        if (mounted) {
-          showSnackMessage(context, 'Invalid . Try Again!', true);
+        if (response.statusCode == 401) {
+          if (mounted) {
+            showSnackMessage(context, 'Please Enter valid 6 digit PIN!', true);
+          }
+        } else {
+          if (mounted) {
+            showSnackMessage(context, 'Invalid . Try Again!', true);
+          }
         }
       }
     }
   }
+
+
 }
