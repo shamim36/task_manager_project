@@ -5,7 +5,8 @@ class Urls {
   static const String registration = '$_baseUrl/registration';
   static const String login = '$_baseUrl/login';
   static const String createNewTask = '$_baseUrl/createTask';
-  static String getNewTasks = '$_baseUrl/listTaskByStatus/${TaskStatus.New.name}';
+  static String getNewTasks =
+      '$_baseUrl/listTaskByStatus/${TaskStatus.New.name}';
   static String getCompletedTasks =
       '$_baseUrl/listTaskByStatus/${TaskStatus.Completed.name}';
   static String getInProgressTasks =
@@ -16,4 +17,6 @@ class Urls {
 
   static String updateTaskStatus(String taskId, String status) =>
       '$_baseUrl/updateTaskStatus/$taskId/$status';
+
+  static const String updateProfile = '$_baseUrl/profileUpdate';
 }
