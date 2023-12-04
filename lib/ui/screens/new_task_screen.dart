@@ -40,8 +40,8 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       setState(() {});
     }
   }
-  
-  Future<void> setRefresh() async{
+
+  Future<void> setRefresh() async {
     getNewTaskList();
     getTaskCountSummaryList();
   }
@@ -63,12 +63,12 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     }
   }
 
+
   @override
   void initState() {
     super.initState();
     getNewTaskList();
     getTaskCountSummaryList();
-    setState(() {});
   }
 
   @override
@@ -79,9 +79,12 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const AddNewTaskScreen(),
+              builder: (context) => AddNewTaskScreen(onAddTask: (){
+                setRefresh();
+              }),
             ),
           );
+          
         },
         child: const Icon(Icons.add),
       ),

@@ -7,7 +7,9 @@ import 'package:task_manager_project/ui/widgets/profile_summary_card.dart';
 import 'package:task_manager_project/ui/widgets/snack_message.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
-  const AddNewTaskScreen({super.key});
+  
+  const AddNewTaskScreen({super.key, required this.onAddTask});
+  final VoidCallback onAddTask;
 
   @override
   State<AddNewTaskScreen> createState() => _AddNewTaskScreenState();
@@ -19,6 +21,8 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
       TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _createTaskInProgress = false;
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -124,9 +128,11 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
         setState(() {});
       }
       if (response.isSuccess) {
+        widget.onAddTask();
         _clearTextFields();
         if (mounted) {
           showSnackMessage(context, 'New Task Added');
+
         }
       } else {
         if (mounted) {
