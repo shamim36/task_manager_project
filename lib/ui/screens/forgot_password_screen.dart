@@ -16,6 +16,8 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailTEController = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+
   bool _emailVarificationInProgress = false;
 
   @override
@@ -26,81 +28,90 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 80,
-                  ),
-                  Text(
-                    'Your Email Address',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  const Text(
-                    'A 6 digit verification pin will send to your',
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
-                  ),
-                  const Text(
-                    'email address',
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  TextFormField(
-                    controller: _emailTEController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      hintText: 'Email',
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 80,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 18,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Visibility(
-                      visible: _emailVarificationInProgress == false,
-                      replacement: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      child: ElevatedButton(
-                        onPressed: emailVarification,
-                        child: const Icon(Icons.arrow_circle_right_outlined),
-                      ),
+                    Text(
+                      'Your Email Address',
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 48,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Have account?',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black54,
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    const Text(
+                      'A 6 digit verification pin will send to your',
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                    ),
+                    const Text(
+                      'email address',
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    TextFormField(
+                      controller: _emailTEController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        hintText: 'Email',
+                      ),
+                      validator: (String? value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Enter Email Address!';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Visibility(
+                        visible: _emailVarificationInProgress == false,
+                        replacement: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: emailVarification,
+                          child: const Icon(Icons.arrow_circle_right_outlined),
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text(
-                          'Sign in',
+                    ),
+                    const SizedBox(
+                      height: 48,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Have account?',
                           style: TextStyle(
                             fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black54,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'Sign in',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -110,6 +121,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   Future<void> emailVarification() async {
+    if(!_formKey.currentState!.validate()){
+      return;
+    }
     _emailVarificationInProgress = true;
     if (mounted) {
       setState(() {});
@@ -151,5 +165,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         }
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _emailTEController.dispose();
+    super.dispose();
   }
 }
